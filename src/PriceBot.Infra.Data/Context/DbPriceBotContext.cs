@@ -14,10 +14,5 @@ namespace PriceBot.Infra.Data.Context
         {
             modelBuilder.ApplyConfiguration(new ProductMap());
         }
-
-        private void Seed(ModelBuilder modelBuilder)
-        {
-
-        }
     }
 }

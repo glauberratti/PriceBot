@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using PriceBot.Application.Interfaces;
+using PriceBot.Application.Mappings;
 using PriceBot.Application.Services;
+using PriceBot.Application.ViewModels;
+using PriceBot.CrossCutting.ExchangeRateApi;
+using PriceBot.CrossCutting.Settings;
 using PriceBot.Domain.Product;
 using PriceBot.Domain.Product.Repository;
 using PriceBot.Infra.Data.Context;
@@ -13,9 +17,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<Settings>(options =>
+{
+    options.ExchangeRateApi.Url = builder.Configuration.GetSection("ExchangeRateApi:Url").Value ?? string.Empty;
+    options.ExchangeRateApi.EndPointLatest = builder.Configuration.GetSection("ExchangeRateApi:EndPointLatest").Value ?? string.Empty;
+    options.ExchangeRateApi.Key = builder.Configuration.GetSection("ExchangeRateApi:Key").Value ?? string.Empty;
+});
+
+builder.Services.AddHttpClient<ExchangeRateApiClient>(options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration.GetSection("ExchangeRateApi:Url").Value ?? string.Empty);
+});
+
 builder.Services.AddDbContext<DbPriceBotContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("PriceBot")));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IProductsProcessing, ProductsProcessing>();
+builder.Services.AddScoped<IExchangeRateApiClient, ExchangeRateApiClient>();
 #endregion
 
 var app = builder.Build();
@@ -40,7 +59,7 @@ app.MapGet("/get-product", async (Guid id, IProductService productService) =>
     if (product is null)
         return Results.NotFound();
 
-    return Results.Ok(product);
+    return Results.Ok(product.Map());
 })
 .WithOpenApi();
 
@@ -51,6 +70,30 @@ app.MapGet("/get-random-product", async (IProductService productService) =>
     return Results.Ok(product);
 })
 .WithOpenApi();
+
+app.MapPost("/post-product", async (ProductRequestVM productVM, IProductService productService) =>
+{
+    try
+    {
+        await productService.AddAsync(productVM.Map());
+        return Results.Ok(productVM);
+    }
+    catch (Exception)
+    {
+        return Results.StatusCode(500);
+    }
+})
+.WithOpenApi();
+
+app.MapGet("/process-usd-values", async (IProductsProcessing productsProcessing) =>
+{
+    await productsProcessing.ProcessUsdValues();
+});
+
+app.MapGet("/process-eur-values", async (IProductsProcessing productsProcessing) =>
+{
+    await productsProcessing.ProcessEurValues();
+});
 #endregion
 
 #region DB Seed

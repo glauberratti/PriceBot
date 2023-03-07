@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.ExchangeRateApi.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj" />
     <ProjectReference Include="..\PriceBot.Domain\PriceBot.Domain.csproj" />
   </ItemGroup>
 

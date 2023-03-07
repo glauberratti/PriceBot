@@ -1,0 +1,7 @@
+﻿namespace PriceBot.Application.Interfaces;
+
+public interface ICurrencyService
+{
+    Task<decimal> GetUsdValue();
+    Task<decimal> GetEurValue();
+}

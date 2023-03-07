@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PriceBot.Application\PriceBot.Application.csproj" />
+    <ProjectReference Include="..\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.ExchangeRateApi.csproj" />
+    <ProjectReference Include="..\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj" />
     <ProjectReference Include="..\PriceBot.Infra.Data\PriceBot.Infra.Data.csproj" />
   </ItemGroup>
 

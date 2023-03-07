@@ -13,15 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Infra", "4-Infra", "{63DF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-Robot", "5-Robot", "{5DD9B73A-AE58-4854-81C6-62A347B32DD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.Application", "src\PriceBot.Application\PriceBot.Application.csproj", "{BE4C27BE-0F39-474A-889C-3DE32D9A9F75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.Application", "src\PriceBot.Application\PriceBot.Application.csproj", "{BE4C27BE-0F39-474A-889C-3DE32D9A9F75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.Domain", "src\PriceBot.Domain\PriceBot.Domain.csproj", "{C3CCC14C-6664-44A4-8129-D8B5FAFB888A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.Domain", "src\PriceBot.Domain\PriceBot.Domain.csproj", "{C3CCC14C-6664-44A4-8129-D8B5FAFB888A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.Infra.Data", "src\PriceBot.Infra.Data\PriceBot.Infra.Data.csproj", "{8D68BCAC-B7BE-425E-81C3-B353BFE07D6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.Infra.Data", "src\PriceBot.Infra.Data\PriceBot.Infra.Data.csproj", "{8D68BCAC-B7BE-425E-81C3-B353BFE07D6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.Infra.IoC", "src\PriceBot.Infra.IoC\PriceBot.Infra.IoC.csproj", "{CF0778B3-F8E3-4196-95F1-1EDB99DD77D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.Infra.IoC", "src\PriceBot.Infra.IoC\PriceBot.Infra.IoC.csproj", "{CF0778B3-F8E3-4196-95F1-1EDB99DD77D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.API", "src\PriceBot.API\PriceBot.API.csproj", "{E38887F5-B07C-483A-9E43-1E29CC1FD417}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.API", "src\PriceBot.API\PriceBot.API.csproj", "{E38887F5-B07C-483A-9E43-1E29CC1FD417}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossCutting", "CrossCutting", "{4A0FF5C6-C717-44DB-893A-03C674C73B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.CrossCutting.Settings", "src\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj", "{3094D848-EC2F-4031-BABF-D0E7056ABFCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.CrossCutting.ExchangeRateApi", "src\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.ExchangeRateApi.csproj", "{76127FB8-FE6B-48CA-90C9-90DCDB55301F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +55,14 @@ Global
 		{E38887F5-B07C-483A-9E43-1E29CC1FD417}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E38887F5-B07C-483A-9E43-1E29CC1FD417}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E38887F5-B07C-483A-9E43-1E29CC1FD417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3094D848-EC2F-4031-BABF-D0E7056ABFCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3094D848-EC2F-4031-BABF-D0E7056ABFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3094D848-EC2F-4031-BABF-D0E7056ABFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3094D848-EC2F-4031-BABF-D0E7056ABFCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +73,9 @@ Global
 		{8D68BCAC-B7BE-425E-81C3-B353BFE07D6A} = {63DF9621-4C8B-479C-B9EF-EE372E1BCA4E}
 		{CF0778B3-F8E3-4196-95F1-1EDB99DD77D9} = {63DF9621-4C8B-479C-B9EF-EE372E1BCA4E}
 		{E38887F5-B07C-483A-9E43-1E29CC1FD417} = {D68AA7AA-DB6A-4E39-B74E-C2420312ED6C}
+		{4A0FF5C6-C717-44DB-893A-03C674C73B65} = {63DF9621-4C8B-479C-B9EF-EE372E1BCA4E}
+		{3094D848-EC2F-4031-BABF-D0E7056ABFCE} = {4A0FF5C6-C717-44DB-893A-03C674C73B65}
+		{76127FB8-FE6B-48CA-90C9-90DCDB55301F} = {4A0FF5C6-C717-44DB-893A-03C674C73B65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89BDA33C-1F54-4F95-993B-0A6E4E51BBA4}

@@ -29,24 +29,27 @@ namespace PriceBot.Domain.Product.Repository
         public async Task AddAsync(Product entity)
         {
             await _dbContext.Set<Product>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Product entity)
         {
             await Task.Run(() => { _dbContext.Entry(entity).State = EntityState.Modified; });
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
             var entity = await _dbContext.Set<Product>().FindAsync(id);
             _dbContext.Set<Product>().Remove(entity!);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<Product> GetRandomAsync()
         {
             var count = await _dbContext.Set<Product>().CountAsync();
 
-            Random random = new(72387471);
+            Random random = new(DateTime.Now.Second + DateTime.Now.Millisecond);
             var randomNum = random.Next(1, count + 1);
 
             var randomProduct = _dbContext.Set<Product>()
