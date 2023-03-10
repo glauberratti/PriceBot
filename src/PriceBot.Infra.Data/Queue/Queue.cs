@@ -4,7 +4,6 @@ using PriceBot.Domain.Queue;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Channels;
 
 namespace PriceBot.Infra.Data.Queue;
 
@@ -93,7 +92,7 @@ public class Queue : IQueue
 
             if (body is null)
             {
-                return default(T?);
+                return default;
             }
 
             var bodyStr = Encoding.UTF8.GetString(body);

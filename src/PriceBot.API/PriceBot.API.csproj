@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.33" />
+    <PackageReference Include="Hangfire.Storage.SQLite" Version="0.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -21,6 +23,7 @@
     <ProjectReference Include="..\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.CurrencyApi.csproj" />
     <ProjectReference Include="..\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj" />
     <ProjectReference Include="..\PriceBot.Infra.Data\PriceBot.Infra.Data.csproj" />
+    <ProjectReference Include="..\PriceBot.Infra.IoC\PriceBot.Infra.IoC.csproj" />
   </ItemGroup>
 
 </Project>

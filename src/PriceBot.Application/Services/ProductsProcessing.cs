@@ -21,17 +21,20 @@ public class ProductsProcessing : IProductsProcessing
     public async Task ProcessUsdValues()
     {
         decimal usdValue = await _currencyService.GetUsdValue();
+        // TODO: rethink about (ok, errors)
         var (ok, errors) = await UpdateProductsUsdCurrency(usdValue);
     }
 
     public async Task ProcessEurValues()
     {
         decimal eurValue = await _currencyService.GetEurValue();
+        // TODO: rethink about (ok, errors)
         var (ok, errors) = await UpdateProductsEurCurrency(eurValue);
     }
 
     private async Task<(bool, List<string>)> UpdateProductsUsdCurrency(decimal usdValue)
     {
+        // TODO: Refactor to one method
         List<string> erros = new();
 
         IEnumerable<Product> products = await _productService.GetAllAsync();
@@ -60,6 +63,7 @@ public class ProductsProcessing : IProductsProcessing
 
     private async Task<(bool, List<string>)> UpdateProductsEurCurrency(decimal eurValue)
     {
+        // TODO: Refactor to one method
         List<string> erros = new();
 
         IEnumerable<Product> products = await _productService.GetAllAsync();
@@ -88,6 +92,7 @@ public class ProductsProcessing : IProductsProcessing
 
     public async Task<bool> ReprocessUsdValueProduct()
     {
+        // TODO: Refactor to one method
         Guid? productId = _productsReprocessingQueue.GetMessage(true);
         if (productId is null || productId.Equals(Guid.Empty))
             return true;
@@ -101,6 +106,34 @@ public class ProductsProcessing : IProductsProcessing
             // TODO: Log
             decimal usdValue = await _currencyService.GetUsdValue();
             product.UpdateUsdCurrency(usdValue);
+            await _productService.UpdateAsync(product);
+        }
+        catch (Exception)
+        {
+            // TODO: Log
+            _productsReprocessingQueue.PublishMessage(productId.Value);
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> ReprocessEurValueProduct()
+    {
+        // TODO: Refactor to one method
+        Guid? productId = _productsReprocessingQueue.GetMessage(true);
+        if (productId is null || productId.Equals(Guid.Empty))
+            return true;
+
+        Product? product = await _productService.GetByIdAsync(productId.Value);
+        if (product is null)
+            return true;
+
+        try
+        {
+            // TODO: Log
+            decimal eurValue = await _currencyService.GetEurValue();
+            product.UpdateUsdCurrency(eurValue);
             await _productService.UpdateAsync(product);
         }
         catch (Exception)

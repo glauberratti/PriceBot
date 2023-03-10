@@ -5,4 +5,5 @@ public interface IProductsProcessing
     Task ProcessUsdValues();
     Task ProcessEurValues();
     Task<bool> ReprocessUsdValueProduct();
+    Task<bool> ReprocessEurValueProduct();
 }

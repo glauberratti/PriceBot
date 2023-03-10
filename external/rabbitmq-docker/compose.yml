@@ -4,8 +4,9 @@ services:
         container_name: "rabbitmq"
         image: rabbitmq:3.11-management-alpine
         environment:
-            - RABBITMQ_DEFAULT_USER=teste
-            - RABBITMQ_DEFAULT_PASS=teste123
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_DEFAULT_PASS=adm123
+            - RABBITMQ_DEFAULT_VHOST=PriceBot
         ports:
             - '5672:5672'
             - '15672:15672'

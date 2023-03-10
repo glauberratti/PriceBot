@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Domain", "3-Domain", "{D2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Infra", "4-Infra", "{63DF9621-4C8B-479C-B9EF-EE372E1BCA4E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-Robot", "5-Robot", "{5DD9B73A-AE58-4854-81C6-62A347B32DD1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.Application", "src\PriceBot.Application\PriceBot.Application.csproj", "{BE4C27BE-0F39-474A-889C-3DE32D9A9F75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.Domain", "src\PriceBot.Domain\PriceBot.Domain.csproj", "{C3CCC14C-6664-44A4-8129-D8B5FAFB888A}"
