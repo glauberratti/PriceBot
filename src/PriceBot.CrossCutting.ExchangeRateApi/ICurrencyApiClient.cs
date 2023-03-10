@@ -1,8 +1,8 @@
 ﻿using PriceBot.Domain.SharedKernel.Enums;
 
-namespace PriceBot.CrossCutting.ExchangeRateApi;
+namespace PriceBot.CrossCutting.CurrencyApi;
 
-public interface IExchangeRateApiClient
+public interface ICurrencyApiClient
 {
     Task<decimal> Get(Currency currency);
 }

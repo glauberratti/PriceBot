@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.ExchangeRateApi.csproj" />
+    <ProjectReference Include="..\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.CurrencyApi.csproj" />
     <ProjectReference Include="..\PriceBot.Domain\PriceBot.Domain.csproj" />
   </ItemGroup>
 

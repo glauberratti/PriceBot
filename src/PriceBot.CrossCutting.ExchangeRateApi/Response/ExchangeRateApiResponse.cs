@@ -1,4 +1,4 @@
-﻿namespace PriceBot.CrossCutting.ExchangeRateApi.Response;
+﻿namespace PriceBot.CrossCutting.CurrencyApi.Response;
 
 public class ExchangeRateApiResponse
 {

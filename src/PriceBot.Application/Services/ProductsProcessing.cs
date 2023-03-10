@@ -1,5 +1,6 @@
 ﻿using PriceBot.Application.Interfaces;
 using PriceBot.Domain.Product;
+using PriceBot.Domain.Queue;
 using System.Net;
 
 namespace PriceBot.Application.Services;
@@ -8,11 +9,13 @@ public class ProductsProcessing : IProductsProcessing
 {
     private readonly IProductService _productService;
     private readonly ICurrencyService _currencyService;
+    private readonly IProductsReprocessingQueue _productsReprocessingQueue;
 
-    public ProductsProcessing(IProductService productService, ICurrencyService currencyService)
+    public ProductsProcessing(IProductService productService, ICurrencyService currencyService, IProductsReprocessingQueue productsReprocessingQueue)
     {
         _productService = productService;
         _currencyService = currencyService;
+        _productsReprocessingQueue = productsReprocessingQueue;
     }
 
     public async Task ProcessUsdValues()
@@ -42,11 +45,13 @@ public class ProductsProcessing : IProductsProcessing
                 if (ThrowException())
                     throw new HttpListenerException();
 
+                // TODO: Log
                 await _productService.UpdateAsync(product);
             }
             catch (Exception)
             {
-                // TODO: Add on reprocessing queue
+                // TODO: Log
+                _productsReprocessingQueue.PublishMessage(product.Id);
             }
         }
 
@@ -68,15 +73,44 @@ public class ProductsProcessing : IProductsProcessing
                 if (ThrowException())
                     throw new HttpListenerException();
 
+                // TODO: Log
                 await _productService.UpdateAsync(product);
             }
             catch (Exception)
             {
-                // TODO: Add on reprocessing queue
+                // TODO: Log
+                _productsReprocessingQueue.PublishMessage(product.Id);
             }
         }
 
         return (true, erros);
+    }
+
+    public async Task<bool> ReprocessUsdValueProduct()
+    {
+        Guid? productId = _productsReprocessingQueue.GetMessage(true);
+        if (productId is null || productId.Equals(Guid.Empty))
+            return true;
+
+        Product? product = await _productService.GetByIdAsync(productId.Value);
+        if (product is null)
+            return true;
+
+        try
+        {
+            // TODO: Log
+            decimal usdValue = await _currencyService.GetUsdValue();
+            product.UpdateUsdCurrency(usdValue);
+            await _productService.UpdateAsync(product);
+        }
+        catch (Exception)
+        {
+            // TODO: Log
+            _productsReprocessingQueue.PublishMessage(productId.Value);
+            return false;
+        }
+
+        return true;
     }
 
     private bool ThrowException()

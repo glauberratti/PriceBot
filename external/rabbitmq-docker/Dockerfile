@@ -1,0 +1,9 @@
+FROM rabbitmq:3-management-alpine
+
+ENV RABBITMQ_DEFAULT_USER=admin
+ENV RABBITMQ_DEFAULT_PASS=adm123
+ENV RABBITMQ_DEFAULT_VHOST=PriceBot
+
+EXPOSE 5672 15672
+
+CMD ["rabbitmq-server"]

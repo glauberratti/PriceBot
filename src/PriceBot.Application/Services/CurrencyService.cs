@@ -1,25 +1,25 @@
 ﻿using PriceBot.Application.Interfaces;
-using PriceBot.CrossCutting.ExchangeRateApi;
+using PriceBot.CrossCutting.CurrencyApi;
 using PriceBot.Domain.SharedKernel.Enums;
 
 namespace PriceBot.Application.Services;
 
 public class CurrencyService : ICurrencyService
 {
-    private readonly ExchangeRateApiClient _exchangeRateApiClient;
+    private readonly ICurrencyApiClient _currencyApiClient;
 
-    public CurrencyService(ExchangeRateApiClient exchangeRateApiClient)
+    public CurrencyService(ICurrencyApiClient currencyApiClient)
     {
-        _exchangeRateApiClient = exchangeRateApiClient;
+        _currencyApiClient = currencyApiClient;
     }
 
     public async Task<decimal> GetUsdValue()
     {
-        return await _exchangeRateApiClient.Get(Currency.USD);
+        return await _currencyApiClient.Get(Currency.USD);
     }
 
     public async Task<decimal> GetEurValue()
     {
-        return await _exchangeRateApiClient.Get(Currency.EUR);
+        return await _currencyApiClient.Get(Currency.EUR);
     }
 }

@@ -5,12 +5,12 @@ using System.Text.Json;
 
 namespace PriceBot.CrossCutting.CurrencyApi;
 
-public class ExchangeRateApiClient : ICurrencyApiClient
+public class AbstractApiClient : ICurrencyApiClient
 {
     private readonly HttpClient _httpClient;
     private readonly Settings.Settings _settings;
 
-    public ExchangeRateApiClient(HttpClient httpClient, IOptions<Settings.Settings> settings)
+    public AbstractApiClient(HttpClient httpClient, IOptions<Settings.Settings> settings)
     {
         _httpClient = httpClient;
         _settings = settings.Value;
@@ -21,7 +21,7 @@ public class ExchangeRateApiClient : ICurrencyApiClient
         try
         {
             // TODO: Log
-            HttpResponseMessage response = await _httpClient.GetAsync($"{_settings.CurrencyApi.Key}/{_settings.CurrencyApi.EndPointLatest}/{currency.Value}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"?{_settings.CurrencyApi.EndPointLatest}={_settings.CurrencyApi.Key}&base={currency.Value}");
             return response;
         }
         catch (Exception)
@@ -37,17 +37,17 @@ public class ExchangeRateApiClient : ICurrencyApiClient
 
     public async Task<decimal> Get(Currency currency)
     {
-        ExchangeRateApiResponse res = new();
+        AbstractApiResponse res = new();
         HttpResponseMessage response = await GetFromApi(currency);
 
         if (response.IsSuccessStatusCode)
         {
             string data = await response.Content.ReadAsStringAsync();
-            res = JsonSerializer.Deserialize<ExchangeRateApiResponse>(data) ?? new();
+            res = JsonSerializer.Deserialize<AbstractApiResponse>(data) ?? new();
         }
 
         // TODO: if not success
 
-        return res.conversion_rates.BRL;
+        return res.exchange_rates.BRL;
     }
 }

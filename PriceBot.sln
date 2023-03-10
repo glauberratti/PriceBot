@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.API", "src\PriceBo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossCutting", "CrossCutting", "{4A0FF5C6-C717-44DB-893A-03C674C73B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.CrossCutting.Settings", "src\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj", "{3094D848-EC2F-4031-BABF-D0E7056ABFCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.CrossCutting.Settings", "src\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj", "{3094D848-EC2F-4031-BABF-D0E7056ABFCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.CrossCutting.ExchangeRateApi", "src\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.ExchangeRateApi.csproj", "{76127FB8-FE6B-48CA-90C9-90DCDB55301F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.CrossCutting.CurrencyApi", "src\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.CurrencyApi.csproj", "{76127FB8-FE6B-48CA-90C9-90DCDB55301F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
