@@ -3,6 +3,9 @@ using PriceBot.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var path = builder.Environment.ContentRootPath;
+builder.AddSerilogConfiguration(path);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

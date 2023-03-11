@@ -1,4 +1,5 @@
 ﻿using PriceBot.Application.Interfaces;
+using PriceBot.CrossCutting.Log;
 using PriceBot.Domain.Product;
 using PriceBot.Domain.Queue;
 using System.Net;
@@ -20,6 +21,7 @@ public class ProductsProcessing : IProductsProcessing
 
     public async Task ProcessUsdValues()
     {
+        return;
         decimal usdValue = await _currencyService.GetUsdValue();
         // TODO: rethink about (ok, errors)
         await UpdateProductsUsdCurrency(usdValue);
@@ -27,6 +29,7 @@ public class ProductsProcessing : IProductsProcessing
 
     public async Task ProcessEurValues()
     {
+        return;
         decimal eurValue = await _currencyService.GetEurValue();
         // TODO: rethink about (ok, errors)
         await UpdateProductsEurCurrency(eurValue);
@@ -90,10 +93,11 @@ public class ProductsProcessing : IProductsProcessing
         {
             productId = _productsReprocessingQueue.GetMessage(true);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // TODO: Log
-            throw;
+            LoggerHelp.LogError(ex, "Error trying to get USD value from currency API");
+            return;
         }
 
         if (productId is null || productId.Equals(Guid.Empty))
@@ -128,10 +132,10 @@ public class ProductsProcessing : IProductsProcessing
         {
             productId = _productsReprocessingQueue.GetMessage(true);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // TODO: Log
-            throw;
+            LoggerHelp.LogError(ex, "Error trying to get EUR value from currency API");
+            return;
         }
 
         if (productId is null || productId.Equals(Guid.Empty))

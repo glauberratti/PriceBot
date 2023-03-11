@@ -14,17 +14,17 @@ public class Jobs
 
     [DisableConcurrentExecution(timeoutInSeconds: 5)]
     [AutomaticRetry(Attempts = 0, LogEvents = false, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-    public async void ProcessProductsValuesJob()
+    public void ProcessProductsValuesJob()
     {
-        await _productsProcessing.ProcessUsdValues();
-        await _productsProcessing.ProcessEurValues();
+        _productsProcessing.ProcessUsdValues().Wait();
+        _productsProcessing.ProcessEurValues().Wait();
     }
 
     [DisableConcurrentExecution(timeoutInSeconds: 5)]
     [AutomaticRetry(Attempts = 0, LogEvents = false, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-    public async void ReprocessValueProductJob()
+    public void ReprocessValueProductJob()
     {
-        await _productsProcessing.ReprocessUsdValueProduct();
-        await _productsProcessing.ReprocessEurValueProduct();
+        _productsProcessing.ReprocessUsdValueProduct().Wait();
+        _productsProcessing.ReprocessEurValueProduct().Wait();
     }
 }

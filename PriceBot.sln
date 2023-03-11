@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.CrossCutting.Setti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceBot.CrossCutting.CurrencyApi", "src\PriceBot.CrossCutting.ExchangeRateApi\PriceBot.CrossCutting.CurrencyApi.csproj", "{76127FB8-FE6B-48CA-90C9-90DCDB55301F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBot.CrossCutting.Log", "src\PriceBot.CrossCutting.Log\PriceBot.CrossCutting.Log.csproj", "{F519B911-64D9-49C6-A9DA-D7F4E6121D89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76127FB8-FE6B-48CA-90C9-90DCDB55301F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F519B911-64D9-49C6-A9DA-D7F4E6121D89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F519B911-64D9-49C6-A9DA-D7F4E6121D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F519B911-64D9-49C6-A9DA-D7F4E6121D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F519B911-64D9-49C6-A9DA-D7F4E6121D89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{4A0FF5C6-C717-44DB-893A-03C674C73B65} = {63DF9621-4C8B-479C-B9EF-EE372E1BCA4E}
 		{3094D848-EC2F-4031-BABF-D0E7056ABFCE} = {4A0FF5C6-C717-44DB-893A-03C674C73B65}
 		{76127FB8-FE6B-48CA-90C9-90DCDB55301F} = {4A0FF5C6-C717-44DB-893A-03C674C73B65}
+		{F519B911-64D9-49C6-A9DA-D7F4E6121D89} = {4A0FF5C6-C717-44DB-893A-03C674C73B65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89BDA33C-1F54-4F95-993B-0A6E4E51BBA4}
