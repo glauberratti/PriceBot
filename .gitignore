@@ -348,7 +348,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
 /src/PriceBot.API/PriceBot.db-shm
 /src/PriceBot.API/PriceBot.db-wal
-/src/PriceBot.API/Hangfire.db
 /src/PriceBot.API/PriceBot.db
+/src/PriceBot.API/Hangfire.db

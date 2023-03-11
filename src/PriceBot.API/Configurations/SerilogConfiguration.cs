@@ -23,8 +23,17 @@ public static class SerilogConfiguration
             .ReadFrom.Services(services)
             .Enrich.FromLogContext()
             .Filter.ByExcluding(l => l.RenderMessage().Contains("https://localhost:7025/"))
-            .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information, outputTemplate: _consoleLogTemplate)
-            .WriteTo.File(p, restrictedToMinimumLevel: LogEventLevel.Information, rollingInterval: RollingInterval.Infinite, retainedFileCountLimit: 10, outputTemplate: _fileLogTemplate)
+            .WriteTo.Console(
+                restrictedToMinimumLevel: LogEventLevel.Information,
+                outputTemplate: _consoleLogTemplate
+            )
+            .WriteTo.File(
+                p,
+                restrictedToMinimumLevel: LogEventLevel.Information,
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 10,
+                outputTemplate: _fileLogTemplate
+            )
         );
 
         builder.Services.AddHttpContextAccessor(); // For CorrelationId

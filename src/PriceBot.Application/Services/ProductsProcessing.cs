@@ -21,7 +21,6 @@ public class ProductsProcessing : IProductsProcessing
 
     public async Task ProcessUsdValues()
     {
-        return;
         decimal usdValue = await _currencyService.GetUsdValue();
         // TODO: rethink about (ok, errors)
         await UpdateProductsUsdCurrency(usdValue);
@@ -29,7 +28,6 @@ public class ProductsProcessing : IProductsProcessing
 
     public async Task ProcessEurValues()
     {
-        return;
         decimal eurValue = await _currencyService.GetEurValue();
         // TODO: rethink about (ok, errors)
         await UpdateProductsEurCurrency(eurValue);
