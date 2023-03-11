@@ -28,7 +28,7 @@ public class Queue : IQueue
         };
     }
 
-    private void CreateQueue(IModel channel, string queueName)
+    private static void CreateQueue(IModel channel, string queueName)
     {
         channel.QueueDeclare(
             queue: queueName,
@@ -66,7 +66,7 @@ public class Queue : IQueue
                 body: messageBody
             );
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // TODO: Log
             throw;
@@ -98,7 +98,7 @@ public class Queue : IQueue
             var bodyStr = Encoding.UTF8.GetString(body);
             return JsonSerializer.Deserialize<T>(bodyStr);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // TODO: Log
             throw;

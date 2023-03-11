@@ -351,3 +351,4 @@ MigrationBackup/
 /src/PriceBot.API/PriceBot.db-shm
 /src/PriceBot.API/PriceBot.db-wal
 /src/PriceBot.API/Hangfire.db
+/src/PriceBot.API/PriceBot.db

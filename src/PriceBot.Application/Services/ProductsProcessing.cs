@@ -22,21 +22,19 @@ public class ProductsProcessing : IProductsProcessing
     {
         decimal usdValue = await _currencyService.GetUsdValue();
         // TODO: rethink about (ok, errors)
-        var (ok, errors) = await UpdateProductsUsdCurrency(usdValue);
+        await UpdateProductsUsdCurrency(usdValue);
     }
 
     public async Task ProcessEurValues()
     {
         decimal eurValue = await _currencyService.GetEurValue();
         // TODO: rethink about (ok, errors)
-        var (ok, errors) = await UpdateProductsEurCurrency(eurValue);
+        await UpdateProductsEurCurrency(eurValue);
     }
 
-    private async Task<(bool, List<string>)> UpdateProductsUsdCurrency(decimal usdValue)
+    private async Task UpdateProductsUsdCurrency(decimal usdValue)
     {
         // TODO: Refactor to one method
-        List<string> erros = new();
-
         IEnumerable<Product> products = await _productService.GetAllAsync();
 
         foreach (Product product in products)
@@ -57,15 +55,11 @@ public class ProductsProcessing : IProductsProcessing
                 _productsReprocessingQueue.PublishMessage(product.Id);
             }
         }
-
-        return (true, erros);
     }
 
-    private async Task<(bool, List<string>)> UpdateProductsEurCurrency(decimal eurValue)
+    private async Task UpdateProductsEurCurrency(decimal eurValue)
     {
         // TODO: Refactor to one method
-        List<string> erros = new();
-
         IEnumerable<Product> products = await _productService.GetAllAsync();
 
         foreach (Product product in products)
@@ -86,20 +80,28 @@ public class ProductsProcessing : IProductsProcessing
                 _productsReprocessingQueue.PublishMessage(product.Id);
             }
         }
-
-        return (true, erros);
     }
 
-    public async Task<bool> ReprocessUsdValueProduct()
+    public async Task ReprocessUsdValueProduct()
     {
         // TODO: Refactor to one method
-        Guid? productId = _productsReprocessingQueue.GetMessage(true);
+        Guid? productId;
+        try
+        {
+            productId = _productsReprocessingQueue.GetMessage(true);
+        }
+        catch (Exception)
+        {
+            // TODO: Log
+            throw;
+        }
+
         if (productId is null || productId.Equals(Guid.Empty))
-            return true;
+            return;
 
         Product? product = await _productService.GetByIdAsync(productId.Value);
         if (product is null)
-            return true;
+            return;
 
         try
         {
@@ -112,22 +114,32 @@ public class ProductsProcessing : IProductsProcessing
         {
             // TODO: Log
             _productsReprocessingQueue.PublishMessage(productId.Value);
-            return false;
+            return;
         }
 
-        return true;
+        return;
     }
 
-    public async Task<bool> ReprocessEurValueProduct()
+    public async Task ReprocessEurValueProduct()
     {
         // TODO: Refactor to one method
-        Guid? productId = _productsReprocessingQueue.GetMessage(true);
+        Guid? productId;
+        try
+        {
+            productId = _productsReprocessingQueue.GetMessage(true);
+        }
+        catch (Exception)
+        {
+            // TODO: Log
+            throw;
+        }
+
         if (productId is null || productId.Equals(Guid.Empty))
-            return true;
+            return;
 
         Product? product = await _productService.GetByIdAsync(productId.Value);
         if (product is null)
-            return true;
+            return;
 
         try
         {
@@ -140,13 +152,13 @@ public class ProductsProcessing : IProductsProcessing
         {
             // TODO: Log
             _productsReprocessingQueue.PublishMessage(productId.Value);
-            return false;
+            return;
         }
 
-        return true;
+        return;
     }
 
-    private bool ThrowException()
+    private static bool ThrowException()
     {
         Random r = new(DateTime.Now.Second+DateTime.Now.Millisecond);
         int num = r.Next(0, 10);
