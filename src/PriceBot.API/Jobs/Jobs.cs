@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using PriceBot.Application.Interfaces;
+using PriceBot.Domain.SharedKernel.Enums;
 
 namespace PriceBot.API.Jobs;
 
@@ -24,7 +25,7 @@ public class Jobs
     [AutomaticRetry(Attempts = 0, LogEvents = false, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
     public void ReprocessValueProductJob()
     {
-        _productsProcessing.ReprocessUsdValueProduct().Wait();
-        _productsProcessing.ReprocessEurValueProduct().Wait();
+        _productsProcessing.ReprocessValueProduct(Currency.USD).Wait();
+        _productsProcessing.ReprocessValueProduct(Currency.EUR).Wait();
     }
 }

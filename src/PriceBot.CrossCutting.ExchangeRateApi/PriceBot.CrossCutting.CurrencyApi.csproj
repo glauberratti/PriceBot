@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PriceBot.CrossCutting.Log\PriceBot.CrossCutting.Log.csproj" />
     <ProjectReference Include="..\PriceBot.CrossCutting.Settings\PriceBot.CrossCutting.Settings.csproj" />
     <ProjectReference Include="..\PriceBot.Domain\PriceBot.Domain.csproj" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using PriceBot.Application.Interfaces;
 using PriceBot.Application.ViewModels;
 using PriceBot.Application.Mappings;
+using PriceBot.Domain.SharedKernel.Enums;
 
 namespace PriceBot.API.Configurations;
 
@@ -53,7 +54,7 @@ public static class ControllersConfiguration
 
         app.MapGet("/reprocess-usd-value-product", async (IProductsProcessing productsProcessing) =>
         {
-            await productsProcessing.ReprocessUsdValueProduct();
+            await productsProcessing.ReprocessValueProduct(Currency.USD);
         });
 
         return app;

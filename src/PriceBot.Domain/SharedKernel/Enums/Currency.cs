@@ -6,5 +6,4 @@ public class Currency
 
     public static Currency USD { get { return new Currency() { Value = "USD" }; } }
     public static Currency EUR { get { return new Currency() { Value = "EUR" }; } }
-    public static Currency BRL { get { return new Currency() { Value = "BRL" }; } }
 }

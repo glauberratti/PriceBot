@@ -2,6 +2,7 @@
 using PriceBot.CrossCutting.Log;
 using PriceBot.Domain.Product;
 using PriceBot.Domain.Queue;
+using PriceBot.Domain.SharedKernel.Enums;
 using System.Net;
 
 namespace PriceBot.Application.Services;
@@ -21,143 +22,80 @@ public class ProductsProcessing : IProductsProcessing
 
     public async Task ProcessUsdValues()
     {
-        decimal usdValue = await _currencyService.GetUsdValue();
-        // TODO: rethink about (ok, errors)
-        await UpdateProductsUsdCurrency(usdValue);
+        decimal usdValue = await _currencyService.GetCurrencyValue(Currency.USD);
+        await UpdateProductsCurrency(Currency.USD, usdValue);
     }
 
     public async Task ProcessEurValues()
     {
-        decimal eurValue = await _currencyService.GetEurValue();
-        // TODO: rethink about (ok, errors)
-        await UpdateProductsEurCurrency(eurValue);
+        decimal eurValue = await _currencyService.GetCurrencyValue(Currency.EUR);
+        await UpdateProductsCurrency(Currency.EUR, eurValue);
     }
 
-    private async Task UpdateProductsUsdCurrency(decimal usdValue)
+    private async Task UpdateProductsCurrency(Currency currency, decimal currencyValue)
     {
-        // TODO: Refactor to one method
+        LoggerHelp.LogInfo($"Updating {currency.Value} values of all products.");
         IEnumerable<Product> products = await _productService.GetAllAsync();
 
         foreach (Product product in products)
         {
-            product.UpdateUsdCurrency(usdValue);
+            product.UpdateCurrencyValue(currency, currencyValue);
 
             try
             {
                 if (ThrowException())
                     throw new HttpListenerException();
 
-                // TODO: Log
+                LoggerHelp.LogInfo($"Updating {currency.Value} value of product with id '{product.Id}'.");
                 await _productService.UpdateAsync(product);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Log
+                LoggerHelp.LogError(ex, $"Error updating {currency.Value} value of product with id '{product.Id}'.");
                 _productsReprocessingQueue.PublishMessage(product.Id);
             }
         }
     }
 
-    private async Task UpdateProductsEurCurrency(decimal eurValue)
+    public async Task ReprocessValueProduct(Currency currency)
     {
-        // TODO: Refactor to one method
-        IEnumerable<Product> products = await _productService.GetAllAsync();
+        Guid? productId;
 
-        foreach (Product product in products)
+        while (true)
         {
-            product.UpdateEurCurrency(eurValue);
+            try
+            {
+                productId = _productsReprocessingQueue.GetMessage(true);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            if (productId is null || productId.Equals(Guid.Empty))
+                return;
+
+            Product? product = await _productService.GetByIdAsync(productId.Value);
+            if (product is null)
+                return;
 
             try
             {
-                if (ThrowException())
-                    throw new HttpListenerException();
+                LoggerHelp.LogInfo($"Updating {currency.Value} value of product with id '{product.Id}'.");
+                decimal currencyValue;
 
-                // TODO: Log
+                currencyValue = await _currencyService.GetCurrencyValue(currency);
+                product.UpdateCurrencyValue(currency, currencyValue);
+                
                 await _productService.UpdateAsync(product);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Log
-                _productsReprocessingQueue.PublishMessage(product.Id);
+                LoggerHelp.LogError(ex, $"Error updating {currency.Value} value of product with id '{product.Id}'.");
+                _productsReprocessingQueue.PublishMessage(productId.Value);
+                return;
             }
         }
-    }
-
-    public async Task ReprocessUsdValueProduct()
-    {
-        // TODO: Refactor to one method
-        Guid? productId;
-        try
-        {
-            productId = _productsReprocessingQueue.GetMessage(true);
-        }
-        catch (Exception ex)
-        {
-            // TODO: Log
-            LoggerHelp.LogError(ex, "Error trying to get USD value from currency API");
-            return;
-        }
-
-        if (productId is null || productId.Equals(Guid.Empty))
-            return;
-
-        Product? product = await _productService.GetByIdAsync(productId.Value);
-        if (product is null)
-            return;
-
-        try
-        {
-            // TODO: Log
-            decimal usdValue = await _currencyService.GetUsdValue();
-            product.UpdateUsdCurrency(usdValue);
-            await _productService.UpdateAsync(product);
-        }
-        catch (Exception)
-        {
-            // TODO: Log
-            _productsReprocessingQueue.PublishMessage(productId.Value);
-            return;
-        }
-
-        return;
-    }
-
-    public async Task ReprocessEurValueProduct()
-    {
-        // TODO: Refactor to one method
-        Guid? productId;
-        try
-        {
-            productId = _productsReprocessingQueue.GetMessage(true);
-        }
-        catch (Exception ex)
-        {
-            LoggerHelp.LogError(ex, "Error trying to get EUR value from currency API");
-            return;
-        }
-
-        if (productId is null || productId.Equals(Guid.Empty))
-            return;
-
-        Product? product = await _productService.GetByIdAsync(productId.Value);
-        if (product is null)
-            return;
-
-        try
-        {
-            // TODO: Log
-            decimal eurValue = await _currencyService.GetEurValue();
-            product.UpdateUsdCurrency(eurValue);
-            await _productService.UpdateAsync(product);
-        }
-        catch (Exception)
-        {
-            // TODO: Log
-            _productsReprocessingQueue.PublishMessage(productId.Value);
-            return;
-        }
-
-        return;
     }
 
     private static bool ThrowException()

@@ -13,13 +13,8 @@ public class CurrencyService : ICurrencyService
         _currencyApiClient = currencyApiClient;
     }
 
-    public async Task<decimal> GetUsdValue()
+    public async Task<decimal> GetCurrencyValue(Currency currency)
     {
-        return await _currencyApiClient.Get(Currency.USD);
-    }
-
-    public async Task<decimal> GetEurValue()
-    {
-        return await _currencyApiClient.Get(Currency.EUR);
+        return await _currencyApiClient.Get(currency);
     }
 }

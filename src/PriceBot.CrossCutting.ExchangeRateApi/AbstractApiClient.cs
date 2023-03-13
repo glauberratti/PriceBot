@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using PriceBot.CrossCutting.CurrencyApi.Response;
+using PriceBot.CrossCutting.Log;
 using PriceBot.Domain.SharedKernel.Enums;
 using System.Text.Json;
 
@@ -20,13 +21,13 @@ public class AbstractApiClient : ICurrencyApiClient
     {
         try
         {
-            // TODO: Log
+            LoggerHelp.LogInfo("Making a request to the currency API.");
             HttpResponseMessage response = await _httpClient.GetAsync($"?{_settings.CurrencyApi.EndPointLatest}={_settings.CurrencyApi.Key}&base={currency.Value}");
             return response;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // TODO: Log
+            LoggerHelp.LogError(ex, "A unexpected error occurred while trying to request to the currency API");
             throw;
         }
         finally
@@ -45,8 +46,8 @@ public class AbstractApiClient : ICurrencyApiClient
             string data = await response.Content.ReadAsStringAsync();
             res = JsonSerializer.Deserialize<AbstractApiResponse>(data) ?? new();
         }
-
-        // TODO: if not success
+        else
+            LoggerHelp.LogError($"Unsuccessful response from currency API, returning code {response.StatusCode}");
 
         return res.exchange_rates.BRL;
     }

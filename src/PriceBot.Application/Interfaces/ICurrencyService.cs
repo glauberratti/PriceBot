@@ -1,7 +1,8 @@
-﻿namespace PriceBot.Application.Interfaces;
+﻿using PriceBot.Domain.SharedKernel.Enums;
+
+namespace PriceBot.Application.Interfaces;
 
 public interface ICurrencyService
 {
-    Task<decimal> GetUsdValue();
-    Task<decimal> GetEurValue();
+    Task<decimal> GetCurrencyValue(Currency currency);
 }

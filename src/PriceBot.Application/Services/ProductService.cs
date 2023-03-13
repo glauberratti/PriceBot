@@ -1,6 +1,7 @@
 ﻿using PriceBot.Application.Interfaces;
 using PriceBot.Domain.Product;
 using PriceBot.Domain.Product.Repository;
+using PriceBot.Domain.SharedKernel.Enums;
 
 namespace PriceBot.Application.Services
 {
@@ -52,13 +53,13 @@ namespace PriceBot.Application.Services
 
         private async Task GetAndUpdateUsdCurrency(Product product)
         {
-            decimal usdValue = await _currencyService.GetUsdValue();
+            decimal usdValue = await _currencyService.GetCurrencyValue(Currency.USD);
             product.UpdateUsdCurrency(usdValue);
         }
 
         private async Task GetAndUpdateEurCurrency(Product product)
         {
-            decimal eurValue = await _currencyService.GetEurValue();
+            decimal eurValue = await _currencyService.GetCurrencyValue(Currency.EUR);
             product.UpdateEurCurrency(eurValue);
         }
     }

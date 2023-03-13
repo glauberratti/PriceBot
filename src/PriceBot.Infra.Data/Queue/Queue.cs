@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using PriceBot.CrossCutting.Log;
 using PriceBot.CrossCutting.Settings;
 using PriceBot.Domain.Queue;
 using RabbitMQ.Client;
@@ -52,7 +53,7 @@ public class Queue : IQueue
 
         try
         {
-            // TODO: Log
+            LoggerHelp.LogInfo($"Publishing message '{message}' on queue '{queueName}'.");
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
             CreateQueue(channel, queueName);
@@ -66,9 +67,9 @@ public class Queue : IQueue
                 body: messageBody
             );
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // TODO: Log
+            LoggerHelp.LogError(ex, $"A unexpected error occurred while trying to publish message '{message}' on queue '{queueName}'.");
             throw;
         }
     }
@@ -82,7 +83,7 @@ public class Queue : IQueue
 
         try
         {
-            // TODO: Log
+            LoggerHelp.LogInfo($"Getting a message on queue '{queueName}'.");
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
@@ -98,9 +99,9 @@ public class Queue : IQueue
             var bodyStr = Encoding.UTF8.GetString(body);
             return JsonSerializer.Deserialize<T>(bodyStr);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // TODO: Log
+            LoggerHelp.LogError(ex, $"A unexpected error occurred while trying to get a message on queue '{queueName}'.");
             throw;
         }
     }

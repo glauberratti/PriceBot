@@ -11,4 +11,9 @@ public static class LoggerHelp
     {
         Serilog.Log.Error(ex, error);
     }
+
+    public static void LogError(string error)
+    {
+        Serilog.Log.Error(error);
+    }
 }

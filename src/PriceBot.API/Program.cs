@@ -21,8 +21,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+
 app.UseHangfireConfiguration();
 app.UseControllersConfiguration();
 SeedConfiguration.Seed(app);
 
-app.Run();
+app.Run(); 

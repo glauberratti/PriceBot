@@ -20,7 +20,6 @@ public static class HangfireConfiguration
 
     public static WebApplication UseHangfireConfiguration(this WebApplication app)
     {
-        app.UseHttpsRedirection();
         app.UseHangfireDashboard("/hangfire");
         RecurringJob.AddOrUpdate<Jobs.Jobs>("process-products", x => x.ProcessProductsValuesJob(), Cron.Daily(1));
         RecurringJob.AddOrUpdate<Jobs.Jobs>("reprocess-products", x => x.ReprocessValueProductJob(), "* */3 * * *");

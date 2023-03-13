@@ -1,4 +1,6 @@
-﻿namespace PriceBot.Domain.Product
+﻿using PriceBot.Domain.SharedKernel.Enums;
+
+namespace PriceBot.Domain.Product
 {
     public class Product
     {
@@ -16,6 +18,24 @@
         public void UpdateEurCurrency(decimal eurValue)
         {
             EURValue = eurValue * BRLValue;
+        }
+
+        public void UpdateCurrencyValue(Currency currency, decimal currencyValue)
+        {
+            // This strategy was chosen momentarily because if new currencies are added, the maintenance of the code that calls this method will be minimal.
+            //
+            // Essa estratégia foi escolhida momentaneamente porque se novas moedas forem adicionadas, a manutenção do código que chama esse método será mínima.
+
+            Dictionary<string, Action> d = new()
+            {
+                {Currency.USD.Value, () => USDValue = currencyValue * BRLValue },
+                {Currency.EUR.Value, () => EURValue = currencyValue * BRLValue },
+            };
+
+            if (d.TryGetValue(currency.Value, out var action))
+            {
+                action();
+            }
         }
     }
 }

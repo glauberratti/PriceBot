@@ -1,9 +1,10 @@
-﻿namespace PriceBot.Application.Interfaces;
+﻿using PriceBot.Domain.SharedKernel.Enums;
+
+namespace PriceBot.Application.Interfaces;
 
 public interface IProductsProcessing
 {
     Task ProcessUsdValues();
     Task ProcessEurValues();
-    Task ReprocessUsdValueProduct();
-    Task ReprocessEurValueProduct();
+    Task ReprocessValueProduct(Currency currency);
 }
