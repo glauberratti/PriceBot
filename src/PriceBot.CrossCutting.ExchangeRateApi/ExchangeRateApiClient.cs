@@ -49,6 +49,6 @@ public class ExchangeRateApiClient : ICurrencyApiClient
         else
             LoggerHelp.LogError($"Unsuccessful response from currency API, returning code {response.StatusCode}");
 
-        return res.conversion_rates.BRL;
+        return res.Conversion_rates.BRL;
     }
 }

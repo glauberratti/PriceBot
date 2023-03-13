@@ -1,10 +1,17 @@
-﻿namespace PriceBot.CrossCutting.CurrencyApi.Response;
+﻿using System.Text.Json.Serialization;
+
+namespace PriceBot.CrossCutting.CurrencyApi.Response;
 
 public class AbstractApiResponse
 {
-    public string @base { get; set; } = string.Empty;
-    public int last_updated { get; set; }
-    public ExchangeRates exchange_rates { get; set; } = new();
+    [JsonPropertyName("base")]
+    public string Base { get; set; } = string.Empty;
+
+    [JsonPropertyName("last_updated")]
+    public int Last_updated { get; set; }
+
+    [JsonPropertyName("exchange_rates")]
+    public ExchangeRates Exchange_rates { get; set; } = new();
 }
 
 public class ExchangeRates

@@ -18,7 +18,7 @@ public static class SeedConfiguration
 
             if (c == 0)
             {
-                foreach (var i in Enumerable.Range(1, 1000))
+                foreach (var _ in Enumerable.Range(1, 1000))
                 {
                     var f = new Bogus.Faker();
 

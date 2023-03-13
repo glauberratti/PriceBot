@@ -8,6 +8,7 @@ namespace PriceBot.Infra.Data.Context
     {
         public DbPriceBotContext(DbContextOptions<DbPriceBotContext> options) : base(options) {}
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "EntityFramework uses it")]
         DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
