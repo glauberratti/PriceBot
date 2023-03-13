@@ -13,7 +13,6 @@ public static class SerilogConfiguration
         builder.Host.UseSerilog((context, services, configuration) => configuration
             .ReadFrom.Configuration(context.Configuration)
             .ReadFrom.Services(services)
-            .Filter.ByExcluding(l => l.RenderMessage().Contains(":7025/"))
             
             // Moved to appsettings.json
             //

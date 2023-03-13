@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSettingsConfiguration(builder.Configuration);
 builder.Services.RegisterServices(builder.Configuration);
 builder.Services.AddHangfireConfiguration();
+builder.Services.AddHealthChecksConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
@@ -25,6 +26,7 @@ app.UseHttpsRedirection();
 
 app.UseHangfireConfiguration();
 app.UseControllersConfiguration();
+app.UseHealthChecksConfiguration();
 SeedConfiguration.Seed(app);
 
 app.Run(); 
