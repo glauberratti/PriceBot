@@ -2,6 +2,7 @@ using PriceBot.API.Configurations;
 using PriceBot.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Host.Use
 
 var path = builder.Environment.ContentRootPath;
 builder.AddSerilogConfiguration(path);
@@ -16,11 +17,11 @@ builder.Services.AddHealthChecksConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 

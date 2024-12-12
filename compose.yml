@@ -1,0 +1,38 @@
+services:
+    api:
+        image: api
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '5000:5000'
+        volumes:
+            - './database:/App/database:rw'
+            # - type: bind
+              # source: ./database
+              # target: /App/database
+        depends_on:
+            - rabbitmq
+    
+    rabbitmq:
+        image: rabbitmq:3.11-management-alpine
+        hostname: rabbitmq_host
+        environment:
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_DEFAULT_PASS=adm123
+            - RABBITMQ_DEFAULT_VHOST=PriceBot
+        ports:
+            - '5672:5672'
+            - '15672:15672'
+        volumes:
+            - rmq-data:/var/lib/rabbitmq/mnesia/
+
+volumes:
+    rmq-data:
+        driver: local
+    # sqlite-db:
+        # driver: local
+        # driver_opts:
+            # type: volume
+            # source: './database/'
+            # target: '/App/database'

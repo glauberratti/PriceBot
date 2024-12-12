@@ -26,13 +26,24 @@ namespace PriceBot.Domain.Product
             //
             // Essa estratégia foi escolhida momentaneamente porque se novas moedas forem adicionadas, a manutenção do código que chama esse método será mínima.
 
-            Dictionary<string, Action> d = new()
+            //Dictionary<string, Action> d = new()
+            //{
+            //    {Currency.USD.Value, () => USDValue = currencyValue * BRLValue },
+            //    {Currency.EUR.Value, () => EURValue = currencyValue * BRLValue },
+            //};
+
+            //if (d.TryGetValue(currency.Value, out var action))
+            //{
+            //    action();
+            //}
+
+            Dictionary<Currency, Action> d = new()
             {
-                {Currency.USD.Value, () => USDValue = currencyValue * BRLValue },
-                {Currency.EUR.Value, () => EURValue = currencyValue * BRLValue },
+                {Currency.USD, () => UpdateUsdCurrency(currencyValue) },
+                {Currency.EUR, () => UpdateEurCurrency(currencyValue) },
             };
 
-            if (d.TryGetValue(currency.Value, out var action))
+            if (d.TryGetValue(currency, out var action))
             {
                 action();
             }

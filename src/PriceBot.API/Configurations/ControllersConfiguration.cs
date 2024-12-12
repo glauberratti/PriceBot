@@ -57,6 +57,11 @@ public static class ControllersConfiguration
             await productsProcessing.ReprocessValueProduct(Currency.USD);
         });
 
+        app.MapGet("/reprocess-uer-value-product", async (IProductsProcessing productsProcessing) =>
+        {
+            await productsProcessing.ReprocessValueProduct(Currency.EUR);
+        });
+
         return app;
     }
 }

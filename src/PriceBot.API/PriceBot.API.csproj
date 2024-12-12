@@ -1,10 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>21e26c4a-629a-4f76-bf5f-8e7605bf6a4c</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
+
+  <!--<ItemGroup>
+    <None Remove="database\PriceBot.db" />
+    <None Remove="health_check.css" />
+    <None Remove="PriceBot.db" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <!--<Content Include="database\PriceBot.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>-->
+    <Content Include="health_check.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <!--<Content Include="PriceBot.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>-->
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="7.0.0-rc2.6" />
@@ -20,6 +41,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageReference Include="Serilog.Expressions" Version="3.4.1" />

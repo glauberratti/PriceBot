@@ -21,7 +21,7 @@ public class AbstractApiClient : ICurrencyApiClient
     {
         try
         {
-            LoggerHelp.LogInfo("Making a request to the currency API.");
+            LoggerHelp.LogInfo($"Making a request to the currency API, to get {currency.Value} value.");
             HttpResponseMessage response = await _httpClient.GetAsync($"?{_settings.CurrencyApi.EndPointLatest}={_settings.CurrencyApi.Key}&base={currency.Value}");
             return response;
         }
@@ -29,10 +29,6 @@ public class AbstractApiClient : ICurrencyApiClient
         {
             LoggerHelp.LogError(ex, "A unexpected error occurred while trying to request to the currency API");
             throw;
-        }
-        finally
-        {
-            _httpClient.Dispose();
         }
     }
 

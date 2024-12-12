@@ -13,7 +13,11 @@ public static class HealthChecksConfiguration
             .AddRabbitMQ(configuration.GetConnectionString("RabbitMQ")!, null, "RabbitMQ", null, null, null)
             .AddCheck<CurrencyApiHealthCheck>("Currency API");
         
-        services.AddHealthChecksUI()
+        
+        services.AddHealthChecksUI( o =>
+        {
+            o.AddHealthCheckEndpoint("teste", $"http://localhost:5000/health");
+        })
             .AddInMemoryStorage();
 
         return services;
@@ -21,8 +25,15 @@ public static class HealthChecksConfiguration
 
     public static WebApplication UseHealthChecksConfiguration(this WebApplication app)
     {
+        //var urls = app.Urls.
+
+        //foreach (var url in app.Urls)
+        //{
+        //    Console.WriteLine(url);
+        //}
         app.MapHealthChecks("/health", new HealthCheckOptions()
         {
+            Predicate = _ => true,
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
         
